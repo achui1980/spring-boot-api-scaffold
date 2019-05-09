@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/biu?useUnicode=true&useSSL=false&characterEncoding=utf8
+    username: root
+    password:
+logging:
+    level:
+      com.achui.api.sys.mapper: debug
