@@ -1,20 +1,20 @@
 package ${package.Controller};
 
-import com.achui.api.core.Result;
-import com.achui.api.core.ResultGenerator;
 import ${package.Entity}.${table.entityName};
 import ${package.Service}.${table.serviceName};
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 <#if restControllerStyle>
-import org.springframework.web.bind.annotation.RestController;
 <#else>
 import org.springframework.stereotype.Controller;
 </#if>
 <#if superControllerClassPackage??>
 import ${superControllerClassPackage};
+<#else>
+import com.achui.api.core.Result;
+import com.achui.api.core.ResultGenerator;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.beans.factory.annotation.Autowired;
 </#if>
 
 /**
@@ -35,12 +35,11 @@ import ${superControllerClassPackage};
 class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
 <#else>
 <#if superControllerClass??>
-public class ${table.controllerName} extends ${superControllerClass} {
+public class ${table.controllerName} extends ${superControllerClass}<${table.serviceName}, ${table.entityName}> {
 <#else>
 public class ${table.controllerName} {
-</#if>
-     @Autowired
-     private ${table.serviceName} service;
+    @Autowired
+    private ${table.serviceName} service;
 
     @PostMapping("/add")
     public Result add(@RequestBody ${table.entityName} entity) {
@@ -71,5 +70,6 @@ public class ${table.controllerName} {
         Page<${table.entityName}> page = new Page<${table.entityName}>(pageNo, pageSize);
         return ResultGenerator.genSuccessResult(service.page(page));
     }
+</#if>
 }
 </#if>
