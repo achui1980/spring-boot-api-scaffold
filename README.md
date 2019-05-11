@@ -18,6 +18,8 @@ API项目，使我们摆脱那些重复劳动，专注于业务代码的编写�
    resources```目录下的```demo-schema.sql```，```demo-data.sql```,否则忽略该步
 4. 输入表名，运行```CodeGenerator.main()```方法，生成基础代码（可能需要刷新项目目录才会出来）
 5. 根据业务在基础代码上进行扩展
+6. 提交代码前可以运行```sh precommit.sh```查看单元测试覆盖率 （可选）,
+   覆盖率文件位于 /target/site/jacoco/ 目录下
 
 ## 开发建议
 - 表名，建议使用小写，多个单词使用下划线拼接
@@ -31,13 +33,12 @@ API项目，使我们摆脱那些重复劳动，专注于业务代码的编写�
 - MyBatis（[查看官方中文文档](http://www.mybatis.org/mybatis-3/zh/index.html)）
 - MyBatis Plus插件（[查看官方中文文档](https://mp.baomidou.com/)）
 - Fastjson（[查看官方中文文档](https://github.com/Alibaba/fastjson/wiki/%E9%A6%96%E9%A1%B5)）
-- Lombok 插件（[查看官方中文文档](https://projectlombok.org/)）
+- Lombok 插件（[查看官方文档](https://projectlombok.org/)）
 
 ## 感谢
 本工程参考项目 **spring-boot-api-project-seed**
 https://github.com/lihengming/spring-boot-api-project-seed/
 
 ## 后续
-1. 加入代码覆盖率检测（jacoco）
-2. 加入PMD， checkstyle检测
-3. 结合前端UI （iView）生成简单的前端CURD模板
+1. 加入PMD， checkstyle检测
+2. 结合前端UI （iView）生成简单的前端CURD模板
