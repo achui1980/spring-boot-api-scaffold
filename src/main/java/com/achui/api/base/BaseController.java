@@ -7,6 +7,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * @author portz
+ */
 public class BaseController<M extends IService<T>, T> {
     @Autowired
     M service;
