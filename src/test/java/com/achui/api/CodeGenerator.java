@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class CodeGenerator {
@@ -53,7 +54,7 @@ public class CodeGenerator {
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("");
+        dsc.setPassword("achui_1980");
         mpg.setDataSource(dsc);
 
         // 包配置
@@ -116,5 +117,11 @@ public class CodeGenerator {
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();
+
+        FreemarkerTemplateEngine templateEngine = new FreemarkerTemplateEngine();
+        templateEngine.init(mpg.getConfig());
+        Map<String, Object> map = mpg.getTemplateEngine().getObjectMap(mpg.getConfig().getTableInfoList().get(0));
+        templateEngine.writer(map, ftlPath, outPutPath);
+        System.out.println(mpg.getTemplateEngine().getObjectMap(mpg.getConfig().getTableInfoList().get(0)));
     }
 }
