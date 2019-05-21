@@ -8,8 +8,10 @@ import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +37,7 @@ public class CodeGenerator {
         throw new MybatisPlusException("请输入正确的" + tip + "！");
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
 
@@ -118,10 +120,17 @@ public class CodeGenerator {
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();
 
-        FreemarkerTemplateEngine templateEngine = new FreemarkerTemplateEngine();
+        AbstractTemplateEngine templateEngine = mpg.getTemplateEngine();
         templateEngine.init(mpg.getConfig());
         Map<String, Object> map = mpg.getTemplateEngine().getObjectMap(mpg.getConfig().getTableInfoList().get(0));
-        templateEngine.writer(map, ftlPath, outPutPath);
+        String ftlPath = "./generator/me.vue.ftl";
+
+        String outPath = "D:/proj/iview-permission/src/view/reader/my/test.vue";
+        File out = new File(outPath);
+        if (!out.exists()) {
+            out.createNewFile();
+        }
+        templateEngine.writer(map, ftlPath, outPath);
         System.out.println(mpg.getTemplateEngine().getObjectMap(mpg.getConfig().getTableInfoList().get(0)));
     }
 }
