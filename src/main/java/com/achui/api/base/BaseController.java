@@ -39,7 +39,7 @@ public class BaseController<M extends IService<T>, T> {
     }
 
     @GetMapping("/list")
-    public Result list(@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "0") Integer pageSize) {
+    public Result list(@RequestParam(name = "page", defaultValue = "0") Integer pageNo, @RequestParam(name = "size", defaultValue = "0") Integer pageSize) {
         Page<T> page = new Page<T>(pageNo, pageSize);
         return ResultGenerator.genSuccessResult(service.page(page));
     }
