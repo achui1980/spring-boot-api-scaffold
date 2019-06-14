@@ -56,7 +56,7 @@ public class CodeGenerator {
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("achui_1980");
+        dsc.setPassword("");
         mpg.setDataSource(dsc);
 
         // 包配置
@@ -120,17 +120,29 @@ public class CodeGenerator {
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();
 
+        String prefix = "sys_";
         AbstractTemplateEngine templateEngine = mpg.getTemplateEngine();
         templateEngine.init(mpg.getConfig());
         Map<String, Object> map = mpg.getTemplateEngine().getObjectMap(mpg.getConfig().getTableInfoList().get(0));
+        String entityName = mpg.getConfig().getTableInfoList().get(0).getEntityName();
+        String nonPrefixName = mpg.getConfig().getTableInfoList().get(0).getName().replace(prefix, "");
+        map.put("nonPrefixName", nonPrefixName);
         String ftlPath = "./generator/me.vue.ftl";
+        String modalFtlPath = "./generator/tablemodal.vue.ftl";
+        String listFtlPath = "./generator/tablelist.vue.ftl";
+        String path = projectPath + "/src/test/vue/";
+        String outModalPath = path + nonPrefixName + "-modal.vue";
+        String outTableListPath = path + nonPrefixName + "-list.vue";
+        System.out.println(outModalPath);
 
-        String outPath = "D:/proj/iview-permission/src/view/reader/my/test.vue";
+        String outPath = "C:\\js\\iview-permission\\src\\view\\reader\\my\\me1.vue";
         File out = new File(outPath);
         if (!out.exists()) {
             out.createNewFile();
         }
-        templateEngine.writer(map, ftlPath, outPath);
+        //templateEngine.writer(map, ftlPath, outPath);
+        templateEngine.writer(map, modalFtlPath,outModalPath);
+        templateEngine.writer(map, listFtlPath, outTableListPath);
         System.out.println(mpg.getTemplateEngine().getObjectMap(mpg.getConfig().getTableInfoList().get(0)));
     }
 }
