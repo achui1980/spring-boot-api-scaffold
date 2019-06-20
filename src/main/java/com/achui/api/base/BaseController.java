@@ -20,8 +20,8 @@ public class BaseController<M extends IService<T>, T> {
         return ResultGenerator.genSuccessResult();
     }
 
-    @DeleteMapping("/delete")
-    public Result delete(@RequestParam Integer id) {
+    @DeleteMapping("/delete/{id}")
+    public Result delete(@PathVariable Integer id) {
         service.removeById(id);
         return ResultGenerator.genSuccessResult();
     }

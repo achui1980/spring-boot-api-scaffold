@@ -103,7 +103,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        //registry.addMapping("/**");
+        registry.addMapping("/**")
+                //放行哪些原始域
+                .allowedOrigins("*")
+                //放行哪些原始域(请求方式)
+                .allowedMethods("GET","POST", "PUT", "DELETE", "OPTIONS");
     }
 
     private void responseResult(HttpServletResponse response, Result result) {

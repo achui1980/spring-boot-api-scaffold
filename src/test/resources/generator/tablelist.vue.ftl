@@ -1,12 +1,14 @@
 <template>
   <div>
-    <common-table :pageSize="3" :headers="headers" :dataUrl="dataUrl"  @onView="onView"></common-table>
-    <${nonPrefixName?lower_case}-modal ref="${nonPrefixName?lower_case}Modal"/>
+    <common-table :pageSize="3" :headers="headers" :dataUrl="dataUrl"  @onView="onView" @onDelete="onDelete"></common-table>
+    <${nonPrefixName?lower_case}-modal ref="${nonPrefixName?lower_case}Modal" @onRefresh="onRefresh"/>
 
   </div>
 </template>
 
 <script>
+import axios from '@/libs/api.request'
+import util from '@/utils/util'
 import CommonTable from '@/components/table'
 import ${nonPrefixName?cap_first}Modal from '@/components/module/${nonPrefixName?lower_case}-modal'
 export default {
@@ -35,25 +37,20 @@ export default {
   },
   methods: {
     onView (row) {
-      console.log(this.$refs)
-      this.$refs.${nonPrefixName?lower_case}Modal.showModal()
+      this.$refs.${nonPrefixName?lower_case}Modal.showModal(row)
 
     },
-    ok () {
-      this.$Message.info('Clicked ok')
-    },
-    cancel () {
-      this.$Message.info('Clicked cancel')
-    },
-    handleSubmit (name) {
-      this.$refs[name].validate(valid => {
-        if (valid) {
-          this.$Message.success('Success!')
-          this.modal1 = false
-        } else {
-          this.$Message.error('Fail!')
-        }
-      })
+    onDelete (row) {
+      axios
+       .request({
+         baseURL: util.apiBasePath,
+         url: `${package.ModuleName}/${controllerMappingHyphen}/delete/${r'${row.id}'}`,
+         method: 'delete'
+       })
+       .then(res => {
+          this.$Message.info('delete successfully!')
+          this.$refs.commonTable.getPageData()
+       })
     }
   }
 }
