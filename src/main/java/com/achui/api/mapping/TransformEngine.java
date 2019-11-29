@@ -18,22 +18,24 @@ public class TransformEngine {
     private Configuration configuration;
     private File templateFile;
 
-    Configuration getConfiguration() throws IOException {
+    Configuration getConfiguration(String source) throws IOException {
         if (configuration == null) {
             DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_28);
             configuration = new Configuration(Configuration.VERSION_2_3_28);
             configuration.setTemplateLoader(new AbsolutePathFileFreemarkerTemplateLoader());
             configuration.setLocalizedLookup(false);
             configuration.setObjectWrapper(builder.build());
+            configuration.setSharedVariable("valueFromJSON", new ValueFromJson(source));
+            configuration.setSharedVariable("valueFromXML", new ValueFromXML(source));
+            configuration.setSharedVariable("listFromJSON", new ListFromJson(source));
+            configuration.setSharedVariable("listFromXML", new ListFromXML(source));
         }
         return configuration;
     }
 
     public String transform(String source, Map<String, Object> context) {
         try {
-            Configuration cfg = getConfiguration();
-            cfg.setSharedVariable("fromJson", new FromJson(source));
-            cfg.setSharedVariable("fromXML", new FromXML(source));
+            Configuration cfg = getConfiguration(source);
             String path = getTemplateResourcePath(templateFile);
             Template template = configuration.getTemplate(path);
             StringWriter writer = new StringWriter();
